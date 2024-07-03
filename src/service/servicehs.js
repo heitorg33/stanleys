@@ -2,7 +2,8 @@ const { baseApi, baseKinkBox } = require("../utils/baseApi");
 const { postHTTP, propertiesPhone, queryNumber } = require("./http");
 
 const validarNumber = async (number_wts) => {
-  console.log(number_wts);
+  console.log("55" + number_wts);
+  number_wts = "55" + number_wts
   const channelId = 3642;
   const responseKinkBox = await baseKinkBox
     .get(
