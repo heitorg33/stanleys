@@ -5,7 +5,7 @@ const controllerNumber = async (req, res) => {
     const requestNumber = await validarNumber(req.body.phone);
     return res.status(200).json(requestNumber);
   } catch (error) {
-    return res.status(error.response.status).json(error.message);
+    return res.status(400).json(error.message);
   }
 };
 
