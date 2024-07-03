@@ -7,7 +7,18 @@ const validarNumber = async (number_wts) => {
     queryNumber(number_wts)
   );
   console.log(responseNumber);
-  return responseNumber;
+  const {
+    properties: {
+      email,
+      numero_de_telefone_de_whatsapp__provisorio_somente_para_integracao_kinbox_2,
+      firstname,
+    },
+  } = responseNumber.results[0];
+  return {
+    email,
+    numero_de_telefone_de_whatsapp__provisorio_somente_para_integracao_kinbox_2,
+    firstname,
+  };
 };
 
 module.exports = { validarNumber };

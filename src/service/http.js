@@ -19,6 +19,7 @@ const queryNumber = (data) => {
       "hs_object_id",
       "numero_de_telefone_de_whatsapp__provisorio_somente_para_integracao_kinbox_2",
       "firstname",
+      "email"
     ],
     filterGroups: [
       {
