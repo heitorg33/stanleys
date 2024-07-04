@@ -2,7 +2,7 @@ const { baseApi, baseKinkBox } = require("../utils/baseApi");
 const { postHTTP, propertiesPhone, queryNumber } = require("./http");
 
 const validarNumber = async (number_wts) => {
- 
+  number_wts = number_wts.replace(/\D/g, "");
   const channelId = 3642;
   const responseKinkBox = await baseKinkBox
     .get(
