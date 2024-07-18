@@ -1,28 +1,43 @@
-const { baseApi, baseKinkBox } = require("../utils/baseApi");
-const { postHTTP, propertiesPhone, queryNumber } = require("./http");
+const { baseKinkBox } = require("../utils/baseApi");
+const { postHTTP, queryNumber } = require("./http");
+
+const getResponseKinkBox = (number_wts) => {
+  const channelId = 3642;
+  return baseKinkBox
+    .get(`?phone=${number_wts}&channelId=${channelId}`)
+    .then((response) => response.data)
+    .catch((error) => error.message);
+};
+
+const getResponseNumber = (number_wts) => {
+  return postHTTP(`crm/v3/objects/contacts/search`, queryNumber(number_wts));
+};
+
+const processRequests = async (number_wts) => {
+  try {
+    const [responseKinkBox, responseNumber] = await Promise.all([
+      getResponseKinkBox(number_wts),
+      getResponseNumber(number_wts),
+    ]);
+
+    console.log(responseKinkBox);
+    console.log(responseNumber);
+
+    const { results } = responseNumber;
+    const existeInHubSpot = results.length > 0;
+
+    const existeKinkBox = responseKinkBox.canReceiveMessage;
+
+    return { existeInHubSpot, existeKinkBox };
+  } catch (error) {
+    console.error('Error processing requests:', error);
+    return { existeInHubSpot: false, existeKinkBox: false };
+  }
+};
 
 const validarNumber = async (number_wts) => {
   number_wts = number_wts.replace(/\D/g, "");
-  const channelId = 3642;
-  const responseKinkBox = await baseKinkBox
-    .get(
-      `?phone=${number_wts}&channelId=${channelId}
-`
-    )
-    .then((response) => response.data)
-    .catch((error) => error.message);
-
-  console.log(responseKinkBox);
-
-  const responseNumber = await postHTTP(
-    `crm/v3/objects/contacts/search`,
-    queryNumber(number_wts)
-  );
-  console.log(responseNumber);
-  const { results } = responseNumber;
-  const existeInHubSpot = results.length > 0 ? true : false;
-
-  const existeKinkBox = responseKinkBox.canReceiveMessage;
+  const { existeInHubSpot, existeKinkBox } = await processRequests(number_wts);
 
   if (existeInHubSpot && existeKinkBox) {
     return "WhatsApp existente e cadastrado!";
@@ -31,26 +46,6 @@ const validarNumber = async (number_wts) => {
   } else if (!existeKinkBox) {
     return "WhatsApp inexistente!";
   }
-
-  //   if (responseNumber.canReceiveMessage) {
-  //     numberIstrue = responseNumber.canReceiveMessage;
-  //   }
-  //   const {
-  //     properties: {
-  //       email,
-  //       numero_de_telefone_de_whatsapp__provisorio_somente_para_integracao_kinbox_2,
-  //       firstname,
-  //     },
-  //   } = responseNumber.results[0];
-
-  //   if (responseNumber.results.length > 0) {
-  //     return {
-  //       email,
-  //       numero_de_telefone_de_whatsapp__provisorio_somente_para_integracao_kinbox_2,
-  //       firstname,
-  //       numberIstrue,
-  //     };
-  //   }
 };
 
 module.exports = { validarNumber };
