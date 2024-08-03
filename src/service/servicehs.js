@@ -40,9 +40,9 @@ const validarNumber = async (number_wts) => {
   const { existeInHubSpot, existeKinkBox } = await processRequests(number_wts);
 
   if (existeInHubSpot && existeKinkBox) {
-    return "WhatsApp existente e cadastrado!";
+    return "";
   } else if (!existeInHubSpot && existeKinkBox) {
-    return "WhatsApp existente e não cadastrado!";
+    return "";
   } else if (!existeKinkBox) {
     return "WhatsApp inexistente!";
   }
