@@ -30,7 +30,7 @@ const processRequests = async (number_wts) => {
 
     return { existeInHubSpot, existeKinkBox };
   } catch (error) {
-    console.error('Error processing requests:', error);
+    console.error("Error processing requests:", error);
     return { existeInHubSpot: false, existeKinkBox: false };
   }
 };
@@ -40,10 +40,13 @@ const validarNumber = async (number_wts) => {
   const { existeInHubSpot, existeKinkBox } = await processRequests(number_wts);
 
   if (existeInHubSpot && existeKinkBox) {
-    return "";
+    console.log("WhatsApp Existente e Cadastrado");
+    return { hubspot: true, existeKinkBox };
   } else if (!existeInHubSpot && existeKinkBox) {
-    return "";
+    console.log("WhatsApp Existente e não Cadastrado");
+    return { hubspot: false, existeKinkBox };
   } else if (!existeKinkBox) {
+    console.log("WhatsApp Inexistente");
     return "WhatsApp inexistente!";
   }
 };

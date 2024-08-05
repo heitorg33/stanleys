@@ -17,7 +17,7 @@ const queryNumber = (data) => {
   const query = {
     properties: [
       "hs_object_id",
-      "numero_de_telefone_de_whatsapp__provisorio_somente_para_integracao_kinbox_2",
+      "whatsapp_id",
       "firstname",
       "email"
     ],
@@ -26,7 +26,7 @@ const queryNumber = (data) => {
         filters: [
           {
             propertyName:
-              "numero_de_telefone_de_whatsapp__provisorio_somente_para_integracao_kinbox_2",
+              "whatsapp_id",
             value: data,
             operator: "EQ",
           },
