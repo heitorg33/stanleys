@@ -22,7 +22,7 @@ const processRequests = async (number_wts) => {
     let responseNumber;
 
     if (responseKinkBox.canReceiveMessage) {
-      responseNumber = await getResponseNumber(number_wts);
+      responseNumber = await getResponseNumber(responseKinkBox.phone);
     }
 
     console.log(responseKinkBox);
