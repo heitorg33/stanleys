@@ -15,16 +15,25 @@ const getResponseNumber = (number_wts) => {
 
 const processRequests = async (number_wts) => {
   try {
-    const [responseKinkBox, responseNumber] = await Promise.all([
+    const [responseKinkBox] = await Promise.all([
       getResponseKinkBox(number_wts),
-      getResponseNumber(number_wts),
     ]);
+
+    let responseNumber;
+
+    if (responseKinkBox.canReceiveMessage) {
+      responseNumber = await getResponseNumber(number_wts);
+    }
 
     console.log(responseKinkBox);
     console.log(responseNumber);
 
-    const { results } = responseNumber;
-    const existeInHubSpot = results.length > 0;
+    let existeInHubSpot;
+    if(responseNumber) {
+
+      const { results } = responseNumber;
+      existeInHubSpot = results.length > 0;
+    }
 
     const existeKinkBox = responseKinkBox.canReceiveMessage;
 
